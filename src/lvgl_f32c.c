@@ -1,37 +1,34 @@
 #include "include/lvgl_f32c.h"
 #include <time.h>
 #include <string.h>
+#include <stdlib.h>
 #include <dev/fb.h>
 #include <dev/io.h>
 #include <stdio.h>
 
+#define FB_BUFFER_SIZE ((size_t)fb_hdisp * fb_vdisp * fb_bpp / 8)
+
 static struct timespec start;
+static uint8_t *lv_draw_buf = NULL;
 
-long elapsed_ms(struct timespec *start, struct timespec *current)
+uint32_t get_elapsed_ms(void)
 {
-    clock_gettime(CLOCK_MONOTONIC, current);
-    long seconds = current->tv_sec - start->tv_sec;
-    long nanoseconds = current->tv_nsec - start->tv_nsec;
-    return seconds * 1000 + nanoseconds / 1000000;
-}
-
-uint32_t custom_tick_cb(void)
-{
-    struct timespec current;
-    return (uint32_t)elapsed_ms(&start, &current);
+    struct timespec now;
+    clock_gettime(CLOCK_MONOTONIC, &now);
+    long seconds = now.tv_sec - start.tv_sec;
+    long nanoseconds = now.tv_nsec - start.tv_nsec;
+    return (uint32_t)(seconds * 1000 + nanoseconds / 1000000);
 }
 
 void flush_cb(lv_display_t *display, const lv_area_t *area, uint8_t *px_map)
 {
-    int width = area->x2 - area->x1 + 1;
-    int height = area->y2 - area->y1 + 1;
+    int next = fb_visible ^ 1;
 
-    for (int y = 0; y < height; y++)
-    {
-        int fb_index = (area->y1 + y) * fb_hdisp + area->x1;
-        int px_index = y * width;
-        memcpy(&fb_active[fb_index], &px_map[px_index], width);
-    }
+    fb_set_drawable(next);
+
+    memcpy(fb[next], px_map, FB_BUFFER_SIZE);
+
+    fb_set_visible(next);
 
     lv_display_flush_ready(display);
 }
@@ -40,12 +37,23 @@ void lv_f32c_init()
 {
     clock_gettime(CLOCK_MONOTONIC, &start);
     lv_init();
-    lv_tick_set_cb(custom_tick_cb);
+    lv_tick_set_cb(get_elapsed_ms);
 }
 
 void lv_f32c_register_display(lv_display_t *display)
 {
-    lv_display_set_buffers(display, fb[0], fb[1], fb_hdisp * fb_vdisp, LV_DISPLAY_RENDER_MODE_DIRECT);
+    if (!lv_draw_buf)
+    {
+        lv_draw_buf = malloc(FB_BUFFER_SIZE);
+        if (!lv_draw_buf)
+        {
+            fprintf(stderr, "Failed to allocate draw buffer\n");
+            exit(EXIT_FAILURE);
+        }
+        memset(lv_draw_buf, 0, FB_BUFFER_SIZE);
+    }
+
+    lv_display_set_buffers(display, lv_draw_buf, NULL, FB_BUFFER_SIZE, LV_DISPLAY_RENDER_MODE_DIRECT);
     lv_display_set_flush_cb(display, flush_cb);
 }
 
