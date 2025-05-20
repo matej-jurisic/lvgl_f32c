@@ -1,4 +1,4 @@
-#include "ffssi2.h"
+#include "include/ffssi2.h"
 
 int __ffssi2(int x)
 {
@@ -11,5 +11,5 @@ int __ffssi2(int x)
         x >>= 1;
         pos++;
     }
-    return pos;
+    return pos + 1;
 }

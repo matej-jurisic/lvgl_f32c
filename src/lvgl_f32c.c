@@ -1,8 +1,9 @@
-#include "lvgl_f32c.h"
+#include "include/lvgl_f32c.h"
 #include <time.h>
 #include <string.h>
 #include <dev/fb.h>
 #include <dev/io.h>
+#include <stdio.h>
 
 static struct timespec start;
 
@@ -44,7 +45,7 @@ void lv_f32c_init()
 
 void lv_f32c_register_display(lv_display_t *display)
 {
-    lv_display_set_buffers(display, fb_active, &fb_visible, fb_hdisp * fb_vdisp, LV_DISPLAY_RENDER_MODE_DIRECT);
+    lv_display_set_buffers(display, fb[0], fb[1], fb_hdisp * fb_vdisp, LV_DISPLAY_RENDER_MODE_DIRECT);
     lv_display_set_flush_cb(display, flush_cb);
 }
 

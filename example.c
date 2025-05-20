@@ -1,11 +1,12 @@
-#include "lvgl_f32c.h"
+#include "include/lvgl_f32c.h"
 #include "lvgl.h"
 #include <dev/io.h>
 #include <dev/fb.h>
+#include <stdio.h>
 
 int main(void)
 {
-    fb_set_mode(FB_MODE_720p60, FB_BPP_8);
+    fb_set_mode(FB_MODE_1080i60, FB_BPP_8);
 
     lv_f32c_init();
 

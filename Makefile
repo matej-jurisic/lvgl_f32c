@@ -1,4 +1,4 @@
-PROG = lvgl_f32c
+PROG = example
 LIBS = -lulx3s -lm -lc
 
 LVGL_DIR_NAME ?= lvgl
@@ -8,6 +8,6 @@ CFLAGS += -I$(LVGL_DIR)
 
 CFILES = src/lvgl_f32c.c src/ffssi2.c example.c $(CSRCS)
 
-CFLAGS += -D__F32C__ -Iinclude
+CFLAGS += -D__F32C__ -G0
 
 include ${POST_MK}

@@ -1,2 +1,6 @@
 lvgl
 obj
+*.bin
+*.srec
+example
+lvgl_f32c
