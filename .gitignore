@@ -2,5 +2,6 @@ lvgl
 obj
 *.bin
 *.srec
+*.out
 example
 lvgl_f32c
