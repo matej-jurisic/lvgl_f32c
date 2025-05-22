@@ -1,4 +1,5 @@
 #include "include/lvgl_f32c.h"
+#include "include/input.h"
 #include <time.h>
 #include <string.h>
 #include <stdlib.h>
@@ -37,6 +38,14 @@ void lv_f32c_register_display(lv_display_t *display)
     fb_set_drawable(1);
     lv_display_set_buffers(display, fb[0], fb[1], FB_BUFFER_SIZE, LV_DISPLAY_RENDER_MODE_FULL);
     lv_display_set_flush_cb(display, flush_cb);
+}
+
+lv_indev_t *lv_f32c_register_inputs()
+{
+    lv_indev_t *indev_keypad = lv_indev_create();
+    lv_indev_set_type(indev_keypad, LV_INDEV_TYPE_KEYPAD);
+    lv_indev_set_read_cb(indev_keypad, keypad_read);
+    return indev_keypad;
 }
 
 lv_display_t *lv_f32c_display_create(int32_t hor_res, int32_t ver_res)
