@@ -9,7 +9,6 @@
 #define FB_BUFFER_SIZE ((size_t)fb_hdisp * fb_vdisp * fb_bpp / 8)
 
 static struct timespec start;
-static uint8_t *lv_draw_buf = NULL;
 
 uint32_t get_elapsed_ms(void)
 {
@@ -22,14 +21,7 @@ uint32_t get_elapsed_ms(void)
 
 void flush_cb(lv_display_t *display, const lv_area_t *area, uint8_t *px_map)
 {
-    int next = fb_visible ^ 1;
-
-    fb_set_drawable(next);
-
-    memcpy(fb[next], px_map, FB_BUFFER_SIZE);
-
-    fb_set_visible(next);
-
+    OUTW(IO_DV_DMA_BASE, px_map);
     lv_display_flush_ready(display);
 }
 
@@ -42,18 +34,8 @@ void lv_f32c_init()
 
 void lv_f32c_register_display(lv_display_t *display)
 {
-    if (!lv_draw_buf)
-    {
-        lv_draw_buf = malloc(FB_BUFFER_SIZE);
-        if (!lv_draw_buf)
-        {
-            fprintf(stderr, "Failed to allocate draw buffer\n");
-            exit(EXIT_FAILURE);
-        }
-        memset(lv_draw_buf, 0, FB_BUFFER_SIZE);
-    }
-
-    lv_display_set_buffers(display, lv_draw_buf, NULL, FB_BUFFER_SIZE, LV_DISPLAY_RENDER_MODE_DIRECT);
+    fb_set_drawable(1);
+    lv_display_set_buffers(display, fb[0], fb[1], FB_BUFFER_SIZE, LV_DISPLAY_RENDER_MODE_FULL);
     lv_display_set_flush_cb(display, flush_cb);
 }
 

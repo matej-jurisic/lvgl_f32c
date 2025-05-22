@@ -27,8 +27,8 @@ typedef int32_t int_fast32_t;
 #define LV_CONF_H
 
 /* If you need to include anything here, do it inside the `__ASSEMBLY__` guard */
-#if  0 && defined(__ASSEMBLY__)
-#include "my_include.h"
+#if 0 && defined(__ASSEMBLY__)
+#include "string.h"
 #endif
 
 /*====================
@@ -36,7 +36,7 @@ typedef int32_t int_fast32_t;
  *====================*/
 
 /** Color depth: 1 (I1), 8 (L8), 16 (RGB565), 24 (RGB888), 32 (XRGB8888) */
-#define LV_COLOR_DEPTH 8
+#define LV_COLOR_DEPTH 16
 
 /*=========================
    STDLIB WRAPPER SETTINGS
@@ -49,7 +49,7 @@ typedef int32_t int_fast32_t;
  * - LV_STDLIB_RTTHREAD:    RT-Thread implementation
  * - LV_STDLIB_CUSTOM:      Implement the functions externally
  */
-#define LV_USE_STDLIB_MALLOC    LV_STDLIB_BUILTIN
+#define LV_USE_STDLIB_MALLOC    LV_STDLIB_CLIB
 
 /** Possible values
  * - LV_STDLIB_BUILTIN:     LVGL's built in implementation
@@ -101,7 +101,7 @@ typedef int32_t int_fast32_t;
 
 /** Default Dots Per Inch. Used to initialize default sizes such as widgets sized, style paddings.
  * (Not so important, you can adjust it to modify default sizes and spaces.) */
-#define LV_DPI_DEF 200              /**< [px/inch] */
+#define LV_DPI_DEF 130              /**< [px/inch] */
 
 /*=================
  * OPERATING SYSTEM
