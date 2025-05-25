@@ -1,6 +1,8 @@
-#include "include/input.h"
 #include <stdio.h>
+
 #include <dev/io.h>
+
+#include "include/input.h"
 
 bool ulx3s_button_pressed(uint32_t *key)
 {

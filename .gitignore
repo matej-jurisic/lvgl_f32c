@@ -5,3 +5,4 @@ obj
 *.out
 example
 lvgl_f32c
+.vscode
