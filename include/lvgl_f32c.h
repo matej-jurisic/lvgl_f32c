@@ -6,6 +6,11 @@
 
 #include "lvgl.h"
 
+#define LVF32C_ENABLE_LOGS 1
+#define LVF32C_LOG_ERR(fmt, ...) fprintf(stderr, "LVGL F32C (Error): " fmt "\n", ##__VA_ARGS__)
+#define LVF32C_LOG_INFO(fmt, ...) fprintf(stderr, "LVGL F32C (Info): " fmt "\n", ##__VA_ARGS__)
+#define LVF32C_LOG_WARNING(fmt, ...) fprintf(stderr, "LVGL F32C (Warning): " fmt "\n", ##__VA_ARGS__)
+
 int lv_f32c_init(void);
 int lv_f32c_register_display(lv_display_t *display);
 lv_indev_t *lv_f32c_register_inputs(void);

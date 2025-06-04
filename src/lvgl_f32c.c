@@ -13,6 +13,7 @@
 #define LV_F32C_FPS_LABEL_OFFSET_X 5
 #define LV_F32C_FPS_LABEL_OFFSET_Y 5
 #define LV_F32C_FPS_UPDATE_INTERVAL_MS 1000
+#define LV_F32C_FPS_LABEL_BUF_SIZE 32
 
 static int s_frame_count = 0;
 static uint32_t s_last_fps_update_time;
@@ -30,15 +31,16 @@ static void flush_cb(lv_display_t *display, const lv_area_t *area, uint8_t *px_m
 
 static void refresh_fps(void)
 {
-    s_frame_count++;
     uint32_t current_time = get_elapsed_ms();
+    char buf[LV_F32C_FPS_LABEL_BUF_SIZE];
+
+    s_frame_count++;
 
     if (current_time - s_last_fps_update_time >= LV_F32C_FPS_UPDATE_INTERVAL_MS)
     {
-        float actual_elapsed_seconds = (float)(current_time - s_last_fps_update_time) / 1000.0f;
-        int fps = (actual_elapsed_seconds > 0) ? (int)((float)s_frame_count / actual_elapsed_seconds) : 0;
+        const float actual_elapsed_seconds = (float)(current_time - s_last_fps_update_time) / 1000.0f;
+        const int fps = (actual_elapsed_seconds > 0) ? (int)((float)s_frame_count / actual_elapsed_seconds) : 0;
 
-        char buf[32];
         snprintf(buf, sizeof(buf), "FPS: %d", fps);
         lv_label_set_text(s_fps_label, buf);
 
@@ -57,6 +59,14 @@ int lv_f32c_init(void)
 
     lv_tick_set_cb(get_elapsed_ms);
 
+#if LVF32C_ENABLE_LOGS
+    LVF32C_LOG_INFO("LVGL F32C: Initialized with framebuffer size %dx%d (mode %s), bpp %d, buffer size %zu bytes.",
+                    fb_hdisp, fb_vdisp,
+                    (fb_bpp & FB_DOUBLEPIX) ? "double pixel" : "normal",
+                    fb_bpp,
+                    LV_F32C_FB_BUFFER_SIZE);
+#endif
+
     return 1;
 }
 
@@ -64,7 +74,7 @@ int lv_f32c_register_display(lv_display_t *display)
 {
     if (display == NULL)
     {
-        fprintf(stderr, "LVGL F32C: Provided NULL display pointer to lv_f32c_register_display.\n");
+        LVF32C_LOG_ERR("LVGL F32C: Provided NULL display pointer to lv_f32c_register_display.");
         return -1;
     }
 
@@ -72,9 +82,10 @@ int lv_f32c_register_display(lv_display_t *display)
 
     if (fb[0] == NULL || fb[1] == NULL)
     {
-        fprintf(stderr, "LVGL F32C: Framebuffer pointers (fb[0]/fb[1]) are NULL.\n");
+        LVF32C_LOG_ERR("LVGL F32C: Framebuffer pointers (fb[0]/fb[1]) are NULL.");
         return -1;
     }
+
     lv_display_set_buffers(display, fb[0], fb[1], LV_F32C_FB_BUFFER_SIZE, LV_DISPLAY_RENDER_MODE_DIRECT);
     lv_display_set_flush_cb(display, flush_cb);
 
@@ -86,7 +97,7 @@ lv_indev_t *lv_f32c_register_inputs(void)
     lv_indev_t *indev_keypad = lv_indev_create();
     if (indev_keypad == NULL)
     {
-        fprintf(stderr, "LVGL F32C: Failed to create LVGL input device.\n");
+        LVF32C_LOG_ERR("LVGL F32C: Failed to create LVGL input device.");
         return NULL;
     }
 
@@ -100,7 +111,7 @@ void lv_f32c_show_fps(lv_obj_t *screen, bool show)
 {
     if (screen == NULL)
     {
-        fprintf(stderr, "LVGL F32C: Cannot show FPS on a NULL screen object.\n");
+        LVF32C_LOG_ERR("LVGL F32C: Cannot show FPS on a NULL screen object.");
         return;
     }
 
