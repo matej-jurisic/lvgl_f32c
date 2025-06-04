@@ -57,12 +57,12 @@ void lv_f32c_init(void)
 
     lv_tick_set_cb(get_elapsed_ms);
 
-#if LVF32C_ENABLE_LOGS
-    LVF32C_LOG_INFO("LVGL F32C: Initialized with framebuffer size %dx%d (mode %s), bpp %d, buffer size %zu bytes.",
-                    fb_hdisp, fb_vdisp,
-                    (fb_bpp & FB_DOUBLEPIX) ? "double pixel" : "normal",
-                    fb_bpp,
-                    LV_F32C_FB_BUFFER_SIZE);
+#if LV_F32C_ENABLE_LOGS
+    LV_F32C_LOG_INFO("LVGL F32C: Initialized with framebuffer size %dx%d (mode %s), bpp %d, buffer size %zu bytes.",
+                     fb_hdisp, fb_vdisp,
+                     (fb_bpp & FB_DOUBLEPIX) ? "double pixel" : "normal",
+                     fb_bpp,
+                     LV_F32C_FB_BUFFER_SIZE);
 #endif
 }
 
@@ -70,7 +70,7 @@ int lv_f32c_register_display(lv_display_t *display)
 {
     if (display == NULL)
     {
-        LVF32C_LOG_ERR("LVGL F32C: Provided NULL display pointer to lv_f32c_register_display.");
+        LV_F32C_LOG_ERR("LVGL F32C: Provided NULL display pointer to lv_f32c_register_display.");
         return 0;
     }
 
@@ -78,7 +78,7 @@ int lv_f32c_register_display(lv_display_t *display)
 
     if (fb[0] == NULL || fb[1] == NULL)
     {
-        LVF32C_LOG_ERR("LVGL F32C: Framebuffer pointers (fb[0]/fb[1]) are NULL.");
+        LV_F32C_LOG_ERR("LVGL F32C: Framebuffer pointers (fb[0]/fb[1]) are NULL.");
         return 0;
     }
 
@@ -92,7 +92,7 @@ void lv_f32c_show_fps(lv_obj_t *screen, bool visible)
 {
     if (screen == NULL)
     {
-        LVF32C_LOG_ERR("LVGL F32C: Cannot show FPS on a NULL screen object.");
+        LV_F32C_LOG_ERR("LVGL F32C: Cannot show FPS on a NULL screen object.");
         return;
     }
 

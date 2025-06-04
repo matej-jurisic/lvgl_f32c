@@ -26,9 +26,9 @@ int main(void)
 
     lv_f32c_show_fps(screen, true);
 
-    static lv_image_dsc_t image_desc;
-    lv_f32c_init_image_desc(&image_desc, IMAGE_WIDTH, IMAGE_HEIGHT);
-    lv_obj_t *image = lv_f32c_load_image(screen, &image_desc, "image.bin");
+    static lv_image_dsc_t image_dsc;
+    lv_f32c_init_image_dsc(&image_dsc, IMAGE_WIDTH, IMAGE_HEIGHT);
+    lv_obj_t *image = lv_f32c_load_image(screen, &image_dsc, "image.bin");
     lv_obj_center(image);
 
     while (1)
@@ -37,6 +37,6 @@ int main(void)
         msleep(5);
     }
 
-    lv_f32c_free_image_dsc(&image_desc);
+    lv_f32c_free_image_dsc(&image_dsc);
     return 0;
 }

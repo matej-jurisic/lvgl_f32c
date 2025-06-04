@@ -11,11 +11,21 @@
 
 // Enable or disable logging
 // Set to 1 to enable logs, 0 to disable
-#define LVF32C_ENABLE_LOGS 1
+#define LV_F32C_ENABLE_LOGS 1
 
-#define LVF32C_LOG_ERR(fmt, ...) fprintf(stderr, "LVGL F32C (Error): " fmt "\n", ##__VA_ARGS__)
-#define LVF32C_LOG_INFO(fmt, ...) fprintf(stderr, "LVGL F32C (Info): " fmt "\n", ##__VA_ARGS__)
-#define LVF32C_LOG_WARNING(fmt, ...) fprintf(stderr, "LVGL F32C (Warning): " fmt "\n", ##__VA_ARGS__)
+// Define which ulx3s buttons are mapped to which LVGL keys.
+// Uncomment/comment the lines below to enable/disable specific buttons.
+#define LV_F32C_BTN_ROT_B LV_KEY_ESC
+#define LV_F32C_BTN_CENTER LV_KEY_ENTER
+#define LV_F32C_BTN_UP LV_KEY_PREV
+#define LV_F32C_BTN_DOWN LV_KEY_NEXT
+#define LV_F32C_BTN_LEFT LV_KEY_LEFT
+#define LV_F32C_BTN_RIGHT LV_KEY_RIGHT
+// #define LV_F32C_BTN_ROT_A LV_KEY_ENTER
+
+#define LV_F32C_LOG_ERR(fmt, ...) fprintf(stderr, "LVGL F32C (Error): " fmt "\n", ##__VA_ARGS__)
+#define LV_F32C_LOG_INFO(fmt, ...) fprintf(stderr, "LVGL F32C (Info): " fmt "\n", ##__VA_ARGS__)
+#define LV_F32C_LOG_WARNING(fmt, ...) fprintf(stderr, "LVGL F32C (Warning): " fmt "\n", ##__VA_ARGS__)
 
 /**
  * @brief Initializes LVGL for f32c.
@@ -65,7 +75,7 @@ int lv_f32c_init_sd_card();
  * @param width Width of the image.
  * @param height Height of the image.
  */
-void lv_f32c_init_image_desc(lv_image_dsc_t *img_dsc, int width, int height);
+void lv_f32c_init_image_dsc(lv_image_dsc_t *img_dsc, int width, int height);
 
 /**
  * @brief Frees resources associated with an LVGL image descriptor.
@@ -76,10 +86,10 @@ void lv_f32c_free_image_dsc(lv_image_dsc_t *img_dsc);
 /**
  * @brief Loads an image from a file onto an LVGL screen.
  * @param screen Pointer to the LVGL screen object.
- * @param image_desc Pointer to the image descriptor.
+ * @param image_dsc Pointer to the image descriptor.
  * @param filename Path to the image file.
  * @return Pointer to the created LVGL image object, or NULL on failure.
  */
-lv_obj_t *lv_f32c_load_image(lv_obj_t *screen, lv_image_dsc_t *image_desc, const char *filename);
+lv_obj_t *lv_f32c_load_image(lv_obj_t *screen, lv_image_dsc_t *image_dsc, const char *filename);
 
 #endif // LVGL_F32C_H
