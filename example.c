@@ -12,7 +12,7 @@ int main(void)
     // Initialize LVGL for f32c
     lv_f32c_init();
     // Sd card initialization
-    if (!lv_f32c_init_sd_card())
+    if (lv_f32c_init_sd_card() != 0)
     {
         return -1;
     }
@@ -23,8 +23,6 @@ int main(void)
     // Get the active screen
     lv_obj_t *screen = lv_screen_active();
     lv_obj_set_style_bg_color(screen, lv_color_make(0x00, 0x70, 0x70), LV_STATE_DEFAULT);
-
-    lv_f32c_show_fps(screen, true);
 
     static lv_image_dsc_t image_dsc;
     lv_f32c_init_image_dsc(&image_dsc, IMAGE_WIDTH, IMAGE_HEIGHT);

@@ -22,15 +22,13 @@ int lv_f32c_init_sd_card()
     if (fr != FR_OK)
     {
         LV_F32C_LOG_ERR("Mount failed! Error: %d", fr);
-        if (fr != FR_OK)
-        {
-            return 0;
-        }
+        LV_F32C_LOG_INFO("This sometimes happens on the first attempt after flashing. Please try rerunning the program to resolve the issue.");
+        return -1;
     }
 #if LV_F32C_ENABLE_LOGS
     LV_F32C_LOG_INFO("SD card mounted successfully!");
 #endif
-    return 1;
+    return 0;
 }
 
 void lv_f32c_init_image_dsc(lv_image_dsc_t *img_dsc, int width, int height)
@@ -45,6 +43,13 @@ void lv_f32c_init_image_dsc(lv_image_dsc_t *img_dsc, int width, int height)
 
 lv_obj_t *lv_f32c_load_image(lv_obj_t *screen, lv_image_dsc_t *image_dsc, const char *filename)
 {
+
+    if (fs.fs_type == 0)
+    {
+        LV_F32C_LOG_ERR("SD card not mounted! Please initialize the SD card before trying to load an image.");
+        return NULL;
+    }
+
     FIL fp;
     FRESULT fr;
     UINT br;

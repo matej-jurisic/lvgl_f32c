@@ -1,5 +1,5 @@
-#ifndef SYSTEM_TICK_H
-#define SYSTEM_TICK_H
+#ifndef LV_F32C_SYSTEM_TICK_H
+#define LV_F32C_SYSTEM_TICK_H
 
 // Standard library headers
 #include <stdint.h>
@@ -24,4 +24,4 @@ void msleep(uint32_t ms);
  */
 uint32_t get_elapsed_ms(void);
 
-#endif // SYSTEM_TICK_H
+#endif // LV_F32C_SYSTEM_TICK_H

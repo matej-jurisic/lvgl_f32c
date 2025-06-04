@@ -13,6 +13,9 @@
 // Set to 1 to enable logs, 0 to disable
 #define LV_F32C_ENABLE_LOGS 1
 
+// Use performance monitor to show FPS and time since last flush
+#define LV_F32C_SHOW_PERFORMANCE_MONITOR 1
+
 // Define which ulx3s buttons are mapped to which LVGL keys.
 // Uncomment/comment the lines below to enable/disable specific buttons.
 #define LV_F32C_BTN_ROT_B LV_KEY_ESC
@@ -35,16 +38,9 @@ void lv_f32c_init(void);
 /**
  * @brief Registers a display.
  * @param display Pointer to the LVGL display object.
- * @return 1 on success, 0 on failure.
+ * @return 0 on success, -1 on failure.
  */
 int lv_f32c_register_display(lv_display_t *display);
-
-/**
- * @brief Toggles the display of the FPS counter on a given screen.
- * @param screen Pointer to the LVGL screen object.
- * @param visible True to show FPS, false to hide.
- */
-void lv_f32c_show_fps(lv_obj_t *screen, bool visible);
 
 /**
  * @brief Handles LVGL timer processing.
@@ -65,7 +61,7 @@ lv_indev_t *lv_f32c_register_inputs(void);
 
 /**
  * @brief Initializes SD card functionality for LVGL F32C.
- * @return 1 on success, 0 on failure.
+ * @return 0 on success, -1 on failure.
  */
 int lv_f32c_init_sd_card();
 
