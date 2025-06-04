@@ -1,13 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-
 #include <dev/io.h>
 #include <dev/fb.h>
 
-#include "lvgl.h"
 #include "include/lvgl_f32c.h"
-#include "include/image.h"
 #include "examples/lv_examples.h"
 
 #define IMAGE_WIDTH 407

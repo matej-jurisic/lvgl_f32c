@@ -1,6 +1,7 @@
 #ifndef SYSTEM_TICK_H
 #define SYSTEM_TICK_H
 
+// Standard library headers
 #include <stdint.h>
 #include <stdbool.h>
 

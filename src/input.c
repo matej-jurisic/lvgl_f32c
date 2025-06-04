@@ -1,10 +1,10 @@
-#include "input.h"
-
-#include <stdio.h>
-
+// Device and hardware-specific headers
 #include <dev/io.h>
 
-bool ulx3s_button_pressed(uint32_t *key)
+// LVGL F32C framework headers
+#include "lvgl_f32c.h"
+
+static bool ulx3s_button_pressed(uint32_t *key)
 {
     uint32_t btn_state;
     INB(btn_state, IO_PUSHBTN);
@@ -54,4 +54,19 @@ void keypad_read(lv_indev_t *indev, lv_indev_data_t *data)
     {
         data->state = LV_INDEV_STATE_RELEASED;
     }
+}
+
+lv_indev_t *lv_f32c_register_inputs(void)
+{
+    lv_indev_t *indev_keypad = lv_indev_create();
+    if (indev_keypad == NULL)
+    {
+        LVF32C_LOG_ERR("LVGL F32C: Failed to create LVGL input device.");
+        return NULL;
+    }
+
+    lv_indev_set_type(indev_keypad, LV_INDEV_TYPE_KEYPAD);
+    lv_indev_set_read_cb(indev_keypad, keypad_read);
+
+    return indev_keypad;
 }

@@ -1,10 +1,13 @@
-#include "system_tick.h"
-
+// Standard library headers
 #include <time.h> // For get_cpu_freq()
 
+// Device and hardware-specific headers
 #include <sys/isr.h>
 #include <mips/asm.h>
 #include <dev/io.h>
+
+// LVGL F32C framework headers
+#include "system_tick.h"
 
 static volatile uint32_t s_system_ms_tick = 0; // Incremented by ISR, holds milliseconds since boot
 static uint32_t s_cp0_tick_increment = 0;      // CPU cycles per millisecond tick

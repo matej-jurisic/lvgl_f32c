@@ -1,11 +1,12 @@
-#include <stdio.h>
+// Standard library headers
 #include <stdlib.h>
 
+// Device and hardware-specific headers
 #include <dev/io.h>
 #include <fatfs/ff.h>
 #include <fatfs/diskio.h>
 
-#include "lvgl.h"
+// LVGL F32C framework headers
 #include "lvgl_f32c.h"
 
 static struct diskio_inst sd0_di;

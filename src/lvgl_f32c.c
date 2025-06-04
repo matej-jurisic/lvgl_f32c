@@ -1,12 +1,10 @@
-#include "lvgl_f32c.h"
-
-#include <stdio.h>
-
+// Device and hardware-specific headers
 #include <dev/io.h>
 #include <dev/fb.h>
 
-#include "input.h"
+// LVGL F32C framework headers
 #include "system_tick.h"
+#include "lvgl_f32c.h"
 
 #define LV_F32C_FB_BUFFER_SIZE ((size_t)fb_hdisp * fb_vdisp * fb_bpp / 8)
 
@@ -49,7 +47,7 @@ static void refresh_fps(void)
     }
 }
 
-int lv_f32c_init(void)
+void lv_f32c_init(void)
 {
     lv_init();
 
@@ -66,8 +64,6 @@ int lv_f32c_init(void)
                     fb_bpp,
                     LV_F32C_FB_BUFFER_SIZE);
 #endif
-
-    return 1;
 }
 
 int lv_f32c_register_display(lv_display_t *display)
@@ -75,7 +71,7 @@ int lv_f32c_register_display(lv_display_t *display)
     if (display == NULL)
     {
         LVF32C_LOG_ERR("LVGL F32C: Provided NULL display pointer to lv_f32c_register_display.");
-        return -1;
+        return 0;
     }
 
     fb_set_drawable(1);
@@ -83,7 +79,7 @@ int lv_f32c_register_display(lv_display_t *display)
     if (fb[0] == NULL || fb[1] == NULL)
     {
         LVF32C_LOG_ERR("LVGL F32C: Framebuffer pointers (fb[0]/fb[1]) are NULL.");
-        return -1;
+        return 0;
     }
 
     lv_display_set_buffers(display, fb[0], fb[1], LV_F32C_FB_BUFFER_SIZE, LV_DISPLAY_RENDER_MODE_DIRECT);
@@ -92,22 +88,7 @@ int lv_f32c_register_display(lv_display_t *display)
     return 1;
 }
 
-lv_indev_t *lv_f32c_register_inputs(void)
-{
-    lv_indev_t *indev_keypad = lv_indev_create();
-    if (indev_keypad == NULL)
-    {
-        LVF32C_LOG_ERR("LVGL F32C: Failed to create LVGL input device.");
-        return NULL;
-    }
-
-    lv_indev_set_type(indev_keypad, LV_INDEV_TYPE_KEYPAD);
-    lv_indev_set_read_cb(indev_keypad, keypad_read);
-
-    return indev_keypad;
-}
-
-void lv_f32c_show_fps(lv_obj_t *screen, bool show)
+void lv_f32c_show_fps(lv_obj_t *screen, bool visible)
 {
     if (screen == NULL)
     {
@@ -122,7 +103,7 @@ void lv_f32c_show_fps(lv_obj_t *screen, bool show)
         lv_obj_move_foreground(s_fps_label);
     }
 
-    if (show)
+    if (visible)
     {
         lv_label_set_text(s_fps_label, "FPS: --");
         lv_obj_clear_flag(s_fps_label, LV_OBJ_FLAG_HIDDEN);
@@ -133,7 +114,7 @@ void lv_f32c_show_fps(lv_obj_t *screen, bool show)
     {
         lv_obj_add_flag(s_fps_label, LV_OBJ_FLAG_HIDDEN);
     }
-    s_show_fps_enabled = show;
+    s_show_fps_enabled = visible;
 }
 
 void lv_f32c_timer_handler(void)
