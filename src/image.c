@@ -55,10 +55,6 @@ lv_obj_t *lv_f32c_load_image(lv_obj_t *screen, lv_image_dsc_t *image_dsc, const 
     UINT br;
     lv_obj_t *img;
 
-    const uint8_t *image_pixel_buffer = image_dsc->data;
-
-    image_dsc->data = (const uint8_t *)image_pixel_buffer;
-
     fr = f_open(&fp, filename, FA_READ);
     if (fr != FR_OK)
     {
@@ -66,7 +62,7 @@ lv_obj_t *lv_f32c_load_image(lv_obj_t *screen, lv_image_dsc_t *image_dsc, const 
         return NULL;
     }
 
-    fr = f_read(&fp, (void *)image_pixel_buffer, image_dsc->data_size, &br);
+    fr = f_read(&fp, (void *)image_dsc->data, image_dsc->data_size, &br);
     if (fr != FR_OK)
     {
         LV_F32C_LOG_ERR("f_read failed! FRESULT: %d", fr);
