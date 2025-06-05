@@ -9,7 +9,7 @@
 
 #define LV_F32C_FB_BUFFER_SIZE ((size_t)fb_hdisp * fb_vdisp * fb_bpp / 8)
 
-static void flush_cb(lv_display_t *display, const lv_area_t *area, uint8_t *px_map)
+static void lv_f32c_flush_cb(lv_display_t *display, const lv_area_t *area, uint8_t *px_map)
 {
     if (lv_display_flush_is_last(display))
     {
@@ -24,13 +24,13 @@ static void flush_cb(lv_display_t *display, const lv_area_t *area, uint8_t *px_m
 
 void lv_f32c_init(void)
 {
-    init_system_tick();
+    lv_f32c_init_system_tick();
 
     fb_set_mode(FB_MODE_720p60, FB_BPP_16 | FB_DOUBLEPIX);
 
     lv_init();
 
-    lv_tick_set_cb(get_elapsed_ms);
+    lv_tick_set_cb(lv_f32c_get_elapsed_ms);
 
 #if LV_F32C_ENABLE_LOGS
     LV_F32C_LOG_INFO("Initialized with framebuffer size %dx%d (mode %s), bpp %d, buffer size %zu bytes.",
@@ -58,7 +58,7 @@ int lv_f32c_register_display(lv_display_t *display)
     }
 
     lv_display_set_buffers(display, fb[0], fb[1], LV_F32C_FB_BUFFER_SIZE, LV_DISPLAY_RENDER_MODE_DIRECT);
-    lv_display_set_flush_cb(display, flush_cb);
+    lv_display_set_flush_cb(display, lv_f32c_flush_cb);
 
     // Initialize the performance monitor
 #if LV_F32C_SHOW_PERFORMANCE_MONITOR

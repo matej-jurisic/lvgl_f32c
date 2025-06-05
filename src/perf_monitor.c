@@ -23,6 +23,8 @@ static lv_style_t s_perf_mon_label_style;
 
 void lv_f32c_perf_monitor_init(void)
 {
+    uint32_t current_time = lv_f32c_get_elapsed_ms();
+
     lv_style_init(&s_perf_mon_label_style);
     lv_style_set_text_font(&s_perf_mon_label_style, &lv_font_montserrat_10);
 
@@ -46,9 +48,9 @@ void lv_f32c_perf_monitor_init(void)
     lv_obj_add_style(s_perf_mon_label_memory, &s_perf_mon_label_style, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     // Initialize performance monitor state
-    s_last_perf_mon_update_time = get_elapsed_ms();
+    s_last_perf_mon_update_time = current_time;
     s_frame_count = 0;
-    s_last_flush_time = get_elapsed_ms();
+    s_last_flush_time = current_time;
     s_time_until_first_flush = 0;
 }
 
@@ -56,7 +58,7 @@ void lv_f32c_perf_monitor_flush_update(lv_display_t *display)
 {
     if (lv_display_flush_is_last(display))
     {
-        uint32_t current_time = get_elapsed_ms();
+        uint32_t current_time = lv_f32c_get_elapsed_ms();
         s_last_time_between_flushes = current_time - s_last_flush_time;
         s_last_flush_time = current_time;
 
@@ -69,7 +71,7 @@ void lv_f32c_perf_monitor_flush_update(lv_display_t *display)
 
 void lv_f32c_perf_monitor_refresh(void)
 {
-    uint32_t current_time = get_elapsed_ms();
+    uint32_t current_time = lv_f32c_get_elapsed_ms();
     char buf_timing[LV_F32C_PERF_MON_LABEL_BUF_SIZE];
     char buf_memory[LV_F32C_PERF_MON_LABEL_BUF_SIZE];
 

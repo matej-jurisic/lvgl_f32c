@@ -32,7 +32,7 @@ cp0_timer_isr(void)
     return (1);
 }
 
-void init_system_tick(void)
+void lv_f32c_init_system_tick(void)
 {
     uint32_t current_count;
 
@@ -49,22 +49,22 @@ void init_system_tick(void)
     asm("ei"); // Enable global interrupts
 }
 
-uint32_t get_elapsed_ms(void)
+uint32_t lv_f32c_get_elapsed_ms(void)
 {
     return s_system_ms_tick;
 }
 
-void msleep(uint32_t ms)
+void lv_f32c_msleep(uint32_t ms)
 {
     uint32_t start_time, end_time;
 
     if (ms == 0)
         return; // No delay needed for 0ms
 
-    start_time = get_elapsed_ms(); // Record start time
-    end_time = start_time + ms;    // Calculate target end time
+    start_time = lv_f32c_get_elapsed_ms(); // Record start time
+    end_time = start_time + ms;            // Calculate target end time
 
-    while (get_elapsed_ms() < end_time)
+    while (lv_f32c_get_elapsed_ms() < end_time)
     {
         asm("wait"); // Put CPU to sleep until next interrupt
     }

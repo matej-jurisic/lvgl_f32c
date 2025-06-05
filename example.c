@@ -74,7 +74,7 @@ int main(void)
     while (1)
     {
         lv_f32c_timer_handler();
-        msleep(5);
+        lv_f32c_msleep(5);
     }
 
     return 0;

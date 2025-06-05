@@ -51,7 +51,7 @@ void lv_f32c_timer_handler(void);
  * @brief Delays execution for a specified number of milliseconds.
  * @param ms The delay duration in milliseconds.
  */
-void msleep(uint32_t ms);
+void lv_f32c_msleep(uint32_t ms);
 
 /**
  * @brief Registers input devices (currently only the keypad) with LVGL.
