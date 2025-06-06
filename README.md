@@ -19,6 +19,8 @@ This repository contains an adaptation of the [LVGL](https://lvgl.io/) graphics 
 
 ## Minimal example
 ```C
+#include <dev/fb.h>
+
 #include "include/lvgl_f32c.h"
 #include "examples/lv_examples.h"
 
