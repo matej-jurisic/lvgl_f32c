@@ -34,11 +34,13 @@ void lv_f32c_perf_monitor_init(void)
     lv_label_set_text(s_perf_mon_label_timing, "");
     lv_obj_add_style(s_perf_mon_label_timing, &s_perf_mon_label_style, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    // Memory monitor label setup
+    // Memory monitor label setup (only if using built-in malloc)
+#if LV_USE_STDLIB_MALLOC == LV_STDLIB_BUILTIN
     s_perf_mon_label_memory = lv_label_create(parent);
     lv_obj_align(s_perf_mon_label_memory, LV_ALIGN_BOTTOM_LEFT, LV_F32C_PERF_MON_LABEL_OFFSET_X, -LV_F32C_PERF_MON_LABEL_OFFSET_Y);
     lv_label_set_text(s_perf_mon_label_memory, "");
     lv_obj_add_style(s_perf_mon_label_memory, &s_perf_mon_label_style, LV_PART_MAIN | LV_STATE_DEFAULT);
+#endif
 
     // Initialize performance monitor state
     s_last_perf_mon_update_time = current_time;
@@ -78,11 +80,14 @@ void lv_f32c_perf_monitor_refresh(void)
         snprintf(buf_timing, sizeof(buf_timing), "FPS: %d\nTIME BETWEEN FLUSHES: %dms\nFIRST FLUSH: %dms", fps, s_last_time_between_flushes, s_time_until_first_flush);
         lv_label_set_text(s_perf_mon_label_timing, buf_timing);
 
+        // Update memory monitor label (only if using built-in malloc)
+#if LV_USE_STDLIB_MALLOC == LV_STDLIB_BUILTIN
         lv_mem_monitor(&mon);
         snprintf(buf_memory, sizeof(buf_memory),
                  "MEMORY USED: %u bytes\nMEMORY FREE: %u bytes\nMEMORY FRAGMENTATION: %u%%",
                  mon.total_size - mon.free_size, mon.free_size, mon.frag_pct);
         lv_label_set_text(s_perf_mon_label_memory, buf_memory);
+#endif
 
         s_frame_count = 0;
         s_last_perf_mon_update_time = current_time;
