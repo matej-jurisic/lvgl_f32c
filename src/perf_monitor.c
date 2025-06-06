@@ -14,7 +14,6 @@ static uint32_t s_last_flush_time = 0;
 static uint32_t s_time_until_first_flush = 0;
 
 static uint32_t s_last_perf_mon_update_time = 0;
-static lv_obj_t *s_perf_overlay = NULL;
 static lv_obj_t *s_perf_mon_label_timing = NULL;
 static lv_obj_t *s_perf_mon_label_memory = NULL;
 
@@ -24,25 +23,19 @@ static lv_style_t s_perf_mon_label_style;
 void lv_f32c_perf_monitor_init(void)
 {
     uint32_t current_time = lv_f32c_get_elapsed_ms();
+    lv_obj_t *parent = lv_layer_sys();
 
     lv_style_init(&s_perf_mon_label_style);
     lv_style_set_text_font(&s_perf_mon_label_style, &lv_font_montserrat_10);
 
-    // Performance monitor overlay setup
-    s_perf_overlay = lv_obj_create(lv_screen_active());
-    lv_obj_remove_style_all(s_perf_overlay);
-    lv_obj_set_size(s_perf_overlay, LV_HOR_RES, LV_VER_RES);
-    lv_obj_clear_flag(s_perf_overlay, LV_OBJ_FLAG_SCROLLABLE);
-    lv_obj_move_foreground(s_perf_overlay);
-
     // Timing monitor label setup
-    s_perf_mon_label_timing = lv_label_create(s_perf_overlay);
+    s_perf_mon_label_timing = lv_label_create(parent);
     lv_obj_align(s_perf_mon_label_timing, LV_ALIGN_TOP_LEFT, LV_F32C_PERF_MON_LABEL_OFFSET_X, LV_F32C_PERF_MON_LABEL_OFFSET_Y);
     lv_label_set_text(s_perf_mon_label_timing, "");
     lv_obj_add_style(s_perf_mon_label_timing, &s_perf_mon_label_style, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     // Memory monitor label setup
-    s_perf_mon_label_memory = lv_label_create(s_perf_overlay);
+    s_perf_mon_label_memory = lv_label_create(parent);
     lv_obj_align(s_perf_mon_label_memory, LV_ALIGN_BOTTOM_LEFT, LV_F32C_PERF_MON_LABEL_OFFSET_X, -LV_F32C_PERF_MON_LABEL_OFFSET_Y);
     lv_label_set_text(s_perf_mon_label_memory, "");
     lv_obj_add_style(s_perf_mon_label_memory, &s_perf_mon_label_style, LV_PART_MAIN | LV_STATE_DEFAULT);
