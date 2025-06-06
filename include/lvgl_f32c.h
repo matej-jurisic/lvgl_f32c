@@ -13,18 +13,21 @@
 // Set to 1 to enable logs, 0 to disable
 #define LV_F32C_ENABLE_LOGS 1
 
-// Use performance monitor to show FPS and time since last flush
+// Use performance monitor
 #define LV_F32C_SHOW_PERFORMANCE_MONITOR 1
+
+// Set F32C display resolution.
+#define LV_F32C_RES FB_MODE_1080i60
 
 // Define which ulx3s buttons are mapped to which LVGL keys.
 // Uncomment/comment the lines below to enable/disable specific buttons.
-#define LV_F32C_BTN_ROT_B LV_KEY_ESC
-#define LV_F32C_BTN_CENTER LV_KEY_ENTER
-#define LV_F32C_BTN_UP LV_KEY_PREV
-#define LV_F32C_BTN_DOWN LV_KEY_NEXT
+#define LV_F32C_BTN_ROT_A LV_KEY_ENTER
+#define LV_F32C_BTN_ROT_B LV_KEY_NEXT
+#define LV_F32C_BTN_CENTER LV_KEY_PREV
+#define LV_F32C_BTN_UP LV_KEY_UP
+#define LV_F32C_BTN_DOWN LV_KEY_DOWN
 #define LV_F32C_BTN_LEFT LV_KEY_LEFT
 #define LV_F32C_BTN_RIGHT LV_KEY_RIGHT
-// #define LV_F32C_BTN_ROT_A LV_KEY_ENTER
 
 #define LV_F32C_LOG_ERR(fmt, ...) fprintf(stderr, "LVGL F32C (Error): " fmt "\n", ##__VA_ARGS__)
 #define LV_F32C_LOG_INFO(fmt, ...) fprintf(stderr, "LVGL F32C (Info): " fmt "\n", ##__VA_ARGS__)

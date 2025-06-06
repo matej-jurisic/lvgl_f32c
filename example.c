@@ -16,7 +16,10 @@ int main(void)
     lv_display_t *display = lv_display_create(fb_hdisp, fb_vdisp);
     lv_f32c_register_display(display);
 
-    lv_demo_widgets();
+    lv_indev_t *indev = lv_f32c_register_inputs();
+    lv_indev_enable(indev, true);
+
+    lv_demo_keypad_encoder();
 
     while (1)
     {

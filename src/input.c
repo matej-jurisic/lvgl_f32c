@@ -73,6 +73,7 @@ void keypad_read(lv_indev_t *indev, lv_indev_data_t *data)
     bool key_pressed = ulx3s_button_pressed(&data->key);
     if (key_pressed)
     {
+        LV_F32C_LOG_INFO("LVGL F32C: Key pressed: %u", data->key);
         data->state = LV_INDEV_STATE_PRESSED;
     }
     else
