@@ -1,0 +1,40 @@
+diff --git a/examples/styles/lv_example_style_19.c b/examples/styles/lv_example_style_19.c
+index c04dde1c6..8961dc179 100644
+--- a/lvgl/examples/styles/lv_example_style_19.c
++++ b/lvgl/examples/styles/lv_example_style_19.c
+@@ -33,9 +33,13 @@ void lv_example_style_19(void)
+ 
+     lv_obj_invalidate(lv_screen_active());
+ 
++#if LV_USE_LOG
+     uint32_t t = lv_tick_get();
+     lv_refr_now(NULL); /*Render only*/
+     LV_LOG_USER("%" LV_PRIu32 " ms\n", lv_tick_elaps(t));
++#else
++    lv_refr_now(NULL); /*Render only*/
++#endif
+ }
+ 
+ #endif
+diff --git a/examples/widgets/span/lv_example_span_1.c b/examples/widgets/span/lv_example_span_1.c
+index 78503a713..38b017ee4 100644
+--- a/lvgl/examples/widgets/span/lv_example_span_1.c
++++ b/lvgl/examples/widgets/span/lv_example_span_1.c
+@@ -3,13 +3,17 @@
+ 
+ static void click_event_cb(lv_event_t * e)
+ {
++#if LV_USE_LOG
+     lv_obj_t * spans = lv_event_get_target_obj(e);
++#endif
+     lv_indev_t * indev = lv_event_get_indev(e);
+     lv_point_t point;
+     lv_indev_get_point(indev, &point);
++#if LV_USE_LOG
+     lv_span_t * span = lv_spangroup_get_span_by_point(spans, &point);
+ 
+     LV_LOG_USER("%s", span ? lv_span_get_text(span) : "NULL");
++#endif
+ }
+ 
+ /**

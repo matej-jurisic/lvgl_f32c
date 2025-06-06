@@ -59,6 +59,7 @@ int lv_f32c_register_display(lv_display_t *display)
 
     lv_display_set_buffers(display, fb[0], fb[1], LV_F32C_FB_BUFFER_SIZE, LV_DISPLAY_RENDER_MODE_DIRECT);
     lv_display_set_flush_cb(display, lv_f32c_flush_cb);
+    lv_display_set_3rd_draw_buffer(display, lv_draw_buf_create(fb_hdisp, fb_vdisp, LV_COLOR_FORMAT_RGB565, 0));
 
     // Initialize the performance monitor
 #if LV_F32C_SHOW_PERFORMANCE_MONITOR
