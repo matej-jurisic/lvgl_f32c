@@ -16,9 +16,6 @@
 // Use performance monitor
 #define LV_F32C_SHOW_PERFORMANCE_MONITOR 1
 
-// Set F32C display resolution.
-#define LV_F32C_RES FB_MODE_1080i60
-
 // Define which ulx3s buttons are mapped to which LVGL keys.
 // Uncomment/comment the lines below to enable/disable specific buttons.
 #define LV_F32C_BTN_ROT_A LV_KEY_ENTER

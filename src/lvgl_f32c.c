@@ -26,7 +26,7 @@ void lv_f32c_init(void)
 {
     lv_f32c_init_system_tick();
 
-    fb_set_mode(LV_F32C_RES, FB_BPP_16 | FB_DOUBLEPIX);
+    fb_set_mode(FB_MODE_720p60, FB_BPP_16 | FB_DOUBLEPIX);
 
     lv_init();
 
