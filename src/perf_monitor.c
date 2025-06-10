@@ -57,6 +57,8 @@ void lv_f32c_perf_monitor_flush_update(lv_display_t *display)
         s_last_time_between_flushes = current_time - s_last_flush_time;
         s_last_flush_time = current_time;
 
+        s_frame_count++;
+
         if (s_time_until_first_flush == 0)
         {
             s_time_until_first_flush = current_time;
@@ -69,8 +71,6 @@ void lv_f32c_perf_monitor_refresh(void)
     uint32_t current_time = lv_f32c_get_elapsed_ms();
     char buf_timing[LV_F32C_PERF_MON_LABEL_BUF_SIZE];
     char buf_memory[LV_F32C_PERF_MON_LABEL_BUF_SIZE];
-
-    s_frame_count++;
 
     if (current_time - s_last_perf_mon_update_time >= LV_F32C_PERF_MON_UPDATE_INTERVAL_MS)
     {

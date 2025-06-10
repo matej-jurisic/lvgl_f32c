@@ -1,11 +1,7 @@
 #include <dev/fb.h>
 
-#include "include/lvgl_f32c.h"
-#include "demos/lv_demos.h"
+#include "lvgl_f32c.h"
 #include "examples/lv_examples.h"
-
-#define IMAGE_WIDTH 407
-#define IMAGE_HEIGHT 246
 
 int main(void)
 {
@@ -16,14 +12,12 @@ int main(void)
     lv_display_t *display = lv_display_create(fb_hdisp, fb_vdisp);
     lv_f32c_register_display(display);
 
-    lv_f32c_register_inputs();
-
     lv_example_arc_2();
 
     while (1)
     {
         lv_f32c_timer_handler();
-        lv_f32c_msleep(5);
+        lv_f32c_msleep(3);
     }
 
     return 0;

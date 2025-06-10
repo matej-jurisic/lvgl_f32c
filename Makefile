@@ -8,7 +8,7 @@ include $(LVGL_ROOT_DIR)/$(LVGL_DIR_NAME)/lvgl.mk
 
 APP_SRCS := $(wildcard src/*.c)
 
-CFILES := example.c $(APP_SRCS) $(CSRCS)
+CFILES := examples/example_arc.c $(APP_SRCS) $(CSRCS)
 
 CFLAGS += -Isrc
 CFLAGS += -Iinclude
