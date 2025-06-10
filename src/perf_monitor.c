@@ -51,18 +51,15 @@ void lv_f32c_perf_monitor_init(void)
 
 void lv_f32c_perf_monitor_flush_update(lv_display_t *display)
 {
-    if (lv_display_flush_is_last(display))
+    uint32_t current_time = lv_f32c_get_elapsed_ms();
+    s_last_time_between_flushes = current_time - s_last_flush_time;
+    s_last_flush_time = current_time;
+
+    s_frame_count++;
+
+    if (s_time_until_first_flush == 0)
     {
-        uint32_t current_time = lv_f32c_get_elapsed_ms();
-        s_last_time_between_flushes = current_time - s_last_flush_time;
-        s_last_flush_time = current_time;
-
-        s_frame_count++;
-
-        if (s_time_until_first_flush == 0)
-        {
-            s_time_until_first_flush = current_time;
-        }
+        s_time_until_first_flush = current_time;
     }
 }
 
